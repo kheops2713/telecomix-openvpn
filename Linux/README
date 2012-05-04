@@ -1,0 +1,75 @@
+- Telecomix International -
+
+
+This small package contains three OpenVPN sample config files,
+one Stunnel sample config file and a root certificate used on
+the WNH darknet.
+
+OpenVPN config files are respectively designed for the
+following type of connection:
+- direct connection to an OpenVPN server
+- connection through stunnel (provides SSL encapsulation)
+- connection through Obfsproxy (obfsuscates the traffic), or
+  any other locally installed SOCKS proxy (can be Tor as well)
+
+
+
+0. Required software - PLEASE READ FIRST
+Select the versions that fit with your Operating System.
+OpenVPN and Stunnel are most probably available as packages
+for your Linux distribution. Obfsproxy probably not.
+
+You can download their source code there:
+- OpenVPN: http://openvpn.net/index.php/download.html
+- Stunnel 4: http://stunnel.cybermirror.org/
+- Obfsproxy:
+  https://www.torproject.org/projects/obfsproxy-instructions.html.en
+
+The 'stunnel', 'obfsproxy' and 'openvpn' commands should all
+be available for execution from the command line.
+
+On some distributions such as Debian and Ubuntu, 'stunnel' may
+be called 'stunnel4'.
+
+
+
+1. Direct connection
+i. Edit openvpn-direct.conf and put your endpoint's IP and 
+   port in the 'remote' parameter.
+
+ii. Issue the command (as root):
+    openvpn --config openvpn-direct.conf
+
+
+
+2. Connection through stunnel
+i. Edit stunnel.conf and put your endpoint's stunnel IP and
+   port in the 'connect' parameter.
+
+ii. Edit openvpn-stunnel.conf and put your endpoint's IP in the
+    'route' line.
+
+iii. Issue:
+     stunnel stunnel.conf
+
+iv. Issue (as root):
+    openvpn --config openvpn-stunnel.conf
+
+
+
+3. Connection through Obfsproxy
+i. Edit openvpn-obfsproxy.conf and put your endpoint's IP and
+   Obfsproxy port in the 'remote' line and its IP in the 'route'
+   line.
+
+ii. Issue:
+    obfsproxy obfs2 socks 127.0.0.1:5050
+
+iii. Issue (as root):
+     openvpn --config openvpn-obfsproxy.conf
+
+
+
+4. Hack it!
+Feel free to adapt the configs to your needs. These are just
+samples to help a bit with the basics :)
