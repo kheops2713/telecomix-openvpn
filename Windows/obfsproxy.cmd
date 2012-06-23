@@ -1,0 +1,1 @@
+cd / && cd "Program Files\OpenVPN Technologies\OpenVPN Client\core" && obfsproxy obfs2 socks 127.0.0.1:5050
