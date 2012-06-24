@@ -51,9 +51,7 @@ iii. You will also need to have wnh-ca.crt in:
 iv. As administrator, open two Command Prompt windows. In 
     Windows 7/Vista  you are able to do this by right clicking
     on the icon and choosing "Run as administrator". Issue in 
-    each window the next: (Or you can start "stunnel.cmd" then
-    "openvpn-stunnel.cmd" as administrator too. These files is
-    in this repository too)
+    each window the next:
 
     A:
         cd /
@@ -78,9 +76,7 @@ ii. You will need to have both obfsproxy.exe and wnh-ca.crt in:
 iii.  As administrator, open two Command Prompt windows. In 
       Windows 7/Vista you will be able to do this by right
       clicking on the icon and choosing  "Run as administrator".
-      Issue in each window the next: (Or you can just start
-      "obfsproxy.cmd" then "openvpn-obfsproxy.cmd" as 
-      administrator too. These files is in this repository too)
+      Issue in each window the next:
    
     A:
         cd /
