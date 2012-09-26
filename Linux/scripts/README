@@ -1,0 +1,51 @@
+* World Neighborhood/Telecomix VPN access Bash scripts *
+
+This directory contains a set of scripts that are usable on Linux to connect to
+some of the WNh VPN endpoints. With some adjustments, they can serve as
+examples to connect to other VPN servers with different configuration. For all
+of them, one has to know at least an IP and port to connect to.
+
+Several scripts are included, each leading to establish a VPN connection
+through a different vector. They require a bunch of commands to be available:
+
+- grep, awk, sed, echo, cut, cat
+- sha1sum
+- ip (iproute2 package)
+- iptables, ip6tables
+- ping
+- uuidgen
+- date, sleep
+
+
+The following scripts are present:
+
+
+* ppp-stunnel.sh
+  --------------
+  Vector: PPP over generic SSL (using stunnel)
+  Arguments: <tunnel server IP> <port> [pppd arguments]
+  Requirements: pppd, stunnel4
+
+* ppp-ssh.sh
+  ----------
+  Vector: PPP over SSH connection
+  Arguments: <tunnel server IP> <port> [remote login] [private key file]
+  Requirements: pppd, ssh
+
+* openvpn-direct.sh
+  -----------------
+  Vector: OpenVPN
+  Arguments: <tunnel server IP> <port>
+  Requirements: openvpn
+
+* openvpn-stunnel.sh
+  ------------------
+  Vector: OpenVPN over generic SSL (with stunnel)
+  Arguments: <tunnel server IP> <port>
+  Requirements: openvpn, stunnel4
+
+* openvpn-obfsproxy.sh
+  --------------------
+  Vector: OpenVPN over Obfsproxy (obfuscator from Tor project)
+  Arguments: <tunnel server IP> <port>
+  Requirements: openvpn, obfsproxy
