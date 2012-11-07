@@ -1,18 +1,5 @@
 #!/bin/bash
 
-# Client-side script for PPP-over-STUNNEL for Tcx Darknet
-
-# CHANGED: 2012-01-19: do not use 'ifconfig' command anymore (it is part of a package that seems to be declared deprecated on various distros) - instead we strongly rely on the "ip" command.
-# -KheOps
-
-# CHANGED: 2012-05-30: try to prevent DNS from leaking due to Network Manager (or any other automatic network management system) automatically changing /etc/resolv.conf
-
-# CHANGED: 2012-06-09: Corrected some bugs that caused some error messages to be displayed during periodic checks of /etc/resolv.conf and iptables counters
-
-# CHANGED: 2012-07-04:
-# - ask for full redirection before actually connecting;
-# - use iptables LOG target to report details of blocked packets.
-
 . functions.sh
 
 function print_log  {
@@ -66,7 +53,8 @@ dev=$($IP route | awk '/default/ { print $5 }')
 
 # Pre-set config
 id=$(uuidgen)
-iptpfx="PPPTCX-"$(echo $id | cut -d - -f 1)
+shortid=$(echo $id | cut -d - -f 1)
+iptpfx="PPSTTCX-"$shortid
 resolvconf="nameserver 10.8.49.1
 nameserver 8.8.8.8
 nameserver 8.8.4.4"

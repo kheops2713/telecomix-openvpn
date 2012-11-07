@@ -61,7 +61,8 @@ dev=$($IP route | awk '/default/ { print $5 }')
 
 # Pre-set config
 id=$(uuidgen)
-iptpfx="PPSHTCX-"$(echo $id | cut -d - -f 1)
+shortid=$(echo $id | cut -d - -f 1)
+iptpfx="PPSHTCX-"$shortid
 resolvconf="nameserver 10.8.49.1
 nameserver 8.8.8.8
 nameserver 8.8.4.4"
