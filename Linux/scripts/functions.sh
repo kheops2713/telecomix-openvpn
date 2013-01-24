@@ -97,13 +97,15 @@ function watchfirewall {
     done
 }
 
+# Search a file in /var/log/ that contain logs of iptables messages
+# allows us to later display warning messages of packets that were blocked
 function search_iptables_log
 {
     local pfx=${1:0:29}
     $IPT -I OUTPUT 1 -o lo -j LOG --log-level 4 --log-prefix "$pfx" --log-ip-options --log-uid
     ping -c 1 127.0.0.1 >/dev/null 2>&1
     $IPT -D OUTPUT -o lo -j LOG --log-level 4 --log-prefix "$pfx" --log-ip-options --log-uid
-    echo $(grep -HZr "$pfx" /var/log/ | awk -F '\0' {'print $1'} | head -n 1)
+    echo $(grep -IHZr "$pfx" /var/log/ | awk -F '\0' {'print $1'} | head -n 1)
 }
 
 function dns_firewall
