@@ -9,7 +9,7 @@ function start_obfsproxy
 {
     local mypidfile="$1"
     
-    $OBFS --log-file=$obfslog --log-min-severity=info obfs2 socks 127.0.0.1:5050 &
+    $OBFS --log-file=$obfslog --log-min-severity=info obfs2 --dest=$host:$port client 127.0.0.1:5050 &
 
     echo $! >"$mypidfile"
 }
@@ -119,7 +119,7 @@ obfspid=$(cat $obfspidfile)
 
 # 3. Start OpenVPN
 echo -e 'a\nb' >/tmp/auth-$id
-options="--daemon --client --dev tun --proto tcp --remote $host $port --socks-proxy 127.0.0.1 5050 --route $host 255.255.255.255 net_gateway --persist-tun --script-security 3 --auth-user-pass /tmp/auth-$id --writepid $pidfile --log $logfile --comp-lzo --ping 5 --verb 3 --ca $pwd/wnh-ca.crt --pull"
+options="--daemon --client --dev tun --proto tcp --remote 127.0.0.1 5050 --route $host 255.255.255.255 net_gateway --persist-tun --script-security 3 --auth-user-pass /tmp/auth-$id --writepid $pidfile --log $logfile --comp-lzo --ping 5 --verb 3 --ca $pwd/wnh-ca.crt --pull"
 if [ "$full" != y ]; then
     options="$options --route-nopull --route 10.8.0.0 255.255.0.0 --route 10.7.0.0 255.255.0.0"
 fi
