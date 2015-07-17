@@ -90,7 +90,7 @@ if [ -n "$iptlogfile" ]; then echo $(print_right "$iptlogfile"); else echo $(pri
 echo "$stunnelconf" >/tmp/stunnel.conf-$id
 
 # 2. Retrieve interface list before pppd startup
-oldiflist="("$($IP addr | awk -F ': ' '/^[0-9]/ { print $2 }' | xargs | sed 's/ /|/g')")"
+oldiflist="("$(ls -1 /sys/class/net | xargs | sed 's/ /|/g')")"
 
 full=n
 echo -n "Do you want to activate full redirection of your traffic (i.e. change default route)? [y/n] "
@@ -116,7 +116,7 @@ end=$(($start + $maxwait))
 
 # 5. check interface has come up
 while [ -z "$newif" ]; do
-    newif=$($IP addr | awk -F ': ' '/^[0-9]/ { print $2 }' | grep ppp | egrep -v "$oldiflist")
+    newif=$(ls -1 /sys/class/net | grep ppp | egrep -v "$oldiflist")
 
     [ -z "$newif" -a $(date +%s) -gt $end ] && \
 	echo "Time up!"$(print_right error) && \
@@ -139,7 +139,7 @@ end=$(($start + $maxwaitgw))
 
 echo -n "Waiting for an IP address (max: $maxwaitgw seconds)... "
 while [ -z "$gw" ]; do
-    check_if=$(cat /proc/net/dev | egrep "^ *$newif:")
+    check_if=$(egrep "^ *$newif:" /proc/net/dev)
 
     [ -z "$check_if" ] && echo "Network interface '$newif' is down!"$(print_right error) && (kill $pid 2>/dev/null; print_log) && exit
 

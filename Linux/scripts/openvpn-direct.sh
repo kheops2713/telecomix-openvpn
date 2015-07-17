@@ -80,7 +80,7 @@ iptlogfile=$(search_iptables_log "testTCX-$shortid")
 if [ -n "$iptlogfile" ]; then echo $(print_right "$iptlogfile"); else echo $(print_right "Not found!"); fi
 
 # 1. Retrieve interface list before startup
-oldiflist="("$($IP addr | awk -F ': ' '/^[0-9]/ { print $2 }' | xargs | sed 's/ /|/g')")"
+oldiflist="("$(ls -1 /sys/class/net | xargs | sed 's/ /|/g')")"
 
 full=n
 echo -n "Do you want to activate full redirection of your traffic (i.e. change default route)? [y/n] "
@@ -115,7 +115,7 @@ end=$(($start + $maxwait))
 
 # 5. check interface has come up
 while [ -z "$newif" ]; do
-    newif=$($IP addr | awk -F ': ' '/^[0-9]/ { print $2 }' | grep tun | egrep -v "$oldiflist")
+    newif=$(ls -1 /sys/class/net | grep tun | egrep -v "$oldiflist")
 
     if [ -z "$newif" -a $(date +%s) -gt $end ]; then
 	echo "Time up!"$(print_right error)
@@ -137,7 +137,7 @@ end=$(($start + $maxwaitgw))
 
 echo -n "Waiting for an IP address (max: $maxwaitgw seconds)... "
 while [ -z "$gw" ]; do
-    check_if=$(cat /proc/net/dev | egrep "^ *$newif:")
+    check_if=$(egrep "^ *$newif:" /proc/net/dev)
 
     if [ -z "$check_if" ]; then
 	echo "Network interface '$newif' is down!$(print_right error)"
